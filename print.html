@@ -341,6 +341,7 @@ return Module2
 <p>Stack yields when importing modules once. The <code>Client</code> waits for the <code>Server</code> to finish loading and executing, including <code>main</code>, to prevent communication before readiness and players joining faster than the <code>Server</code> can run everything needed.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="networking"><a class="header" href="#networking">Networking</a></h1>
 <p>Stack has the ability to network using ROBLOX's built-in Remote Functions and Events, but this process is simplified and completed entirely within the code.</p>
+<h2 id="client-to-server"><a class="header" href="#client-to-server">Client to Server</a></h2>
 <h2 id="server"><a class="header" href="#server">Server</a></h2>
 <pre><code class="language-lua">local Stack = shared.Stack
 local TestServer = Stack.Create { script }
@@ -357,9 +358,9 @@ function TestServer.main()
 		end
 	end)
 
-    game:GetService(&quot;Players&quot;).PlayerAdded:Connect(function(Player)
-		TestServer.Network.TestRemote:Fire(Player, &quot;Hey from the server!&quot;)
-	end)
+    TestServer.Network.TestRemote:Connect(function(Player, Msg)
+        print(Player, Msg)
+    end)
 end
 
 return TestServer
